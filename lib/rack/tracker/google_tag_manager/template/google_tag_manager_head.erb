@@ -1,14 +1,14 @@
 <% if container %>
   <% unless options[:turbolinks] %>
     <% if events.any? %>
-      <script>
+      <%= javascript_tag nonce: true do -%>
         dataLayer = [];
         dataLayer.push(<%= events.map(&:write).join(', ') %>);
-      </script>
+      <% end %>
     <% end %>
   <% end %>
 
-  <script>
+  <%= javascript_tag nonce: true do -%>
     <% if options[:turbolinks] %>
       document.addEventListener('turbolinks:load', function(event) {
         var url = event.data.url;
@@ -22,7 +22,8 @@
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','<%= container %>');</script>
+  })(window,document,'script','dataLayer','<%= container %>');
+  <% end %>
 <% end %>
 
 
